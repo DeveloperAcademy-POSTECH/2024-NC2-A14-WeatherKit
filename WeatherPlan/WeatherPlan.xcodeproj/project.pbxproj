@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2BEBA37A2C1C1EC500771622 /* WeatherPlanApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEBA3792C1C1EC500771622 /* WeatherPlanApp.swift */; };
 		2BEBA37C2C1C1EC500771622 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEBA37B2C1C1EC500771622 /* ContentView.swift */; };
-		2BEBA37E2C1C1EC500771622 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEBA37D2C1C1EC500771622 /* Item.swift */; };
 		2BEBA3802C1C1EC600771622 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BEBA37F2C1C1EC600771622 /* Assets.xcassets */; };
 		2BEBA3832C1C1EC600771622 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2BEBA3822C1C1EC600771622 /* Preview Assets.xcassets */; };
 		2BEBA38D2C1C1EC600771622 /* WeatherPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEBA38C2C1C1EC600771622 /* WeatherPlanTests.swift */; };
@@ -38,7 +37,6 @@
 		2BEBA3762C1C1EC500771622 /* WeatherPlan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherPlan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BEBA3792C1C1EC500771622 /* WeatherPlanApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherPlanApp.swift; sourceTree = "<group>"; };
 		2BEBA37B2C1C1EC500771622 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		2BEBA37D2C1C1EC500771622 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		2BEBA37F2C1C1EC600771622 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2BEBA3822C1C1EC600771622 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2BEBA3882C1C1EC600771622 /* WeatherPlanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherPlanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,7 +96,6 @@
 			children = (
 				2BEBA3792C1C1EC500771622 /* WeatherPlanApp.swift */,
 				2BEBA37B2C1C1EC500771622 /* ContentView.swift */,
-				2BEBA37D2C1C1EC500771622 /* Item.swift */,
 				2BEBA37F2C1C1EC600771622 /* Assets.xcassets */,
 				2BEBA3812C1C1EC600771622 /* Preview Content */,
 			);
@@ -261,7 +258,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2BEBA37C2C1C1EC500771622 /* ContentView.swift in Sources */,
-				2BEBA37E2C1C1EC500771622 /* Item.swift in Sources */,
 				2BEBA37A2C1C1EC500771622 /* WeatherPlanApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
