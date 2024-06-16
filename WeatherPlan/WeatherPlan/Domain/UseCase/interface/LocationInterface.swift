@@ -8,5 +8,7 @@
 import CoreLocation.CLLocation
 
 protocol LocationInterface {
-    var location: CLLocation? { get }
+    var locationUpdateHandler:  ((CLLocation) -> ())? { get set }
+    var locationAvalible: Bool { get }
+    func triggerHandler()
 }

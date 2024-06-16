@@ -7,12 +7,13 @@
 
 import CoreLocation
 
-class LocationManager: NSObject {
+class LocationManager: NSObject, LocationInterface {
     private var locationManager: CLLocationManager?
     
-    private var locationUpdateHandler: ((CLLocation) -> ())?
-    
     private var updateState = false
+    
+    /// Location이 Update될 때 실행되는 클로저
+    var locationUpdateHandler: ((CLLocation) -> ())?
     
     var locationAvalible: Bool {
         return locationManager?.authorizationStatus == .authorizedWhenInUse
@@ -22,19 +23,13 @@ class LocationManager: NSObject {
         updateState.toggle()
     }
     
-    /// LocationManager Initializer
-    /// - Parameters:
-    ///   - locationManager: CLLocationManager 객체
-    ///   - locationUpdateHandler: Location이 Update될 때 실행될 클로저
-    init(locationManager: CLLocationManager, locationUpdateHandler: @escaping (CLLocation) -> ()) {
+    override init() {
         super.init()
         
-        self.locationManager = locationManager
-        locationManager.delegate = self
+        self.locationManager = CLLocationManager()
+        self.locationManager?.delegate = self
         
-        self.locationUpdateHandler = locationUpdateHandler
-        
-        locationManager.startUpdatingLocation()
+        self.locationManager?.startUpdatingLocation()
     }
 }
 
