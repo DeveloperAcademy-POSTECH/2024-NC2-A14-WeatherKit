@@ -7,6 +7,17 @@
 
 import Foundation
 
-struct WeatherModel {
+struct WeatherModel: Identifiable {
+    let id: UUID = UUID()
+    let date: Date
+    let weatherCondition: WeatherCondition
     
+    enum WeatherCondition {
+        case rainy
+        case heat
+        case dusty
+        case ultraviolet
+        case windy
+        case sunny
+    }
 }
