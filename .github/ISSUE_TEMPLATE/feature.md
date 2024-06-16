@@ -1,8 +1,8 @@
 ---
 name: Feature
 about: Feature 기능 추가시 작성해 주세요
-title: ''
-labels: ''
+title: "[Feat] "
+labels: enhancement
 assignees: ''
 
 ---
