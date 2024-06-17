@@ -8,5 +8,63 @@
 import Foundation
 
 extension Date {
+    /// Custom Date Format
+    func format(_ format: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        formatter.locale = .autoupdatingCurrent
+        formatter.timeZone = .current
+        
+        return formatter.string(from: self)
+    }
     
+    /// Checking Two Dates are same
+    func isSameDate(with date: Date) -> Bool {
+        return Calendar.current.isDate(self, inSameDayAs: date)
+    }
+}
+
+extension Date {
+    mutating func moveToNextWeek() {
+        self = Calendar.current.date(byAdding: .weekOfMonth, value: 1, to: self) ?? self
+    }
+    
+    mutating func moveToPreviousWeek() {
+        self = Calendar.current.date(byAdding: .weekOfMonth, value: -1, to: self) ?? self
+    }
+}
+
+extension Date {
+    /// Fetching Week Based on given Date
+    func fetchWeek() -> [WeekDay] {
+        let calendar = Calendar.current
+        let startOfDate = calendar.startOfDay(for: self)
+        
+        var week: [WeekDay] = []
+        let weekForDate = calendar.dateInterval(of: .weekOfMonth, for: startOfDate)
+        guard let startOfWeek = weekForDate?.start else { return [] }
+        
+        (0..<7).forEach { index in
+            if let weekDay = calendar.date(byAdding: .day, value: index, to: startOfWeek) {
+                week.append(.init(date: weekDay))
+            }
+        }
+        return week
+    }
+    
+    func createNextWeek() -> [WeekDay] {
+        let calendar = Calendar.current
+        guard let nextWeek = calendar.date(byAdding: .weekOfMonth, value: 1, to: self) else { return [] }
+        return nextWeek.fetchWeek()
+    }
+    func createPreviousWeek() -> [WeekDay] {
+        let calendar = Calendar.current
+        guard let previousWeek = calendar.date(byAdding: .weekOfMonth, value: -1, to: self) else { return [] }
+        return previousWeek.fetchWeek()
+    }
+    
+    struct WeekDay: Identifiable {
+        var id: UUID = .init()
+        var date: Date
+    }
 }
