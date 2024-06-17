@@ -15,6 +15,8 @@ struct MainView: View {
     
     @State private var planData: [PlanModel] = PlanModel.mock
     
+    @State private var calendarSize: CGSize = .init(width: CGFloat.infinity, height: CGFloat.infinity)
+    
     var body: some View {
         
         VStack {
@@ -22,30 +24,35 @@ struct MainView: View {
             TabView(selection: $currentWeekIndex) {
                 ForEach(weekSlider.indices, id: \.self) { index in
                     let week = weekSlider[index]
-                    HStack {
+                    HStack(spacing: 14) {
                         ForEach(week, id: \.id) { day in
                             VStack {
                                 Text(day.date.format("E"))
+                                    .font(.footnote)
                                 
-                                VStack(spacing: 0) {
+                                VStack(spacing: 4) {
                                     Image(systemName: "cloud.heavyrain")
+                                        .font(.title2)
                                     
                                     Text(day.date.format("d"))
+                                        .font(.footnote)
+                                        .bold()
                                     
                                     Circle()
                                         .frame(width: 6, height: 6)
-                                        .padding(0)
+                                        .foregroundStyle(.gray)
                                 }
                                 .frame(minWidth: 40)
                                 .padding(.vertical, 8)
                                 .background {
                                     RoundedRectangle(cornerRadius: 36)
-                                        .foregroundStyle(.gray)
+                                        .foregroundStyle(Color(uiColor: .systemGray6))
                                 }
                             }
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
                     }
+                    .onGeometrySizeChange { calendarSize = $0 }
                     .background {
                         GeometryReader { geometry in
                             let minX = geometry.frame(in: .global).minX
@@ -76,9 +83,9 @@ struct MainView: View {
                     }
                     .tag(index)
                 }
-                .padding(.horizontal)
+                .padding(.horizontal, 18)
             }
-            .frame(maxHeight: 114)
+            .frame(maxHeight: calendarSize.height)
             .tabViewStyle(.page(indexDisplayMode: .never))
             .onAppear {
                 weekSlider.append(Date().createPreviousWeek())
@@ -101,6 +108,8 @@ struct MainView: View {
                             .foregroundStyle(LinearGradient(colors: [Color(red: 113/255, green: 119/255, blue: 255/255), Color(red: 255/255, green: 123/255, blue: 123/255)], startPoint: .leading, endPoint: .trailing))
                         Text("31º")
                     }
+                    .font(.subheadline)
+                    .foregroundStyle(.gray)
                     
                     Text("일교차가 많이 클 것 같아요")
                         .font(.largeTitle)
