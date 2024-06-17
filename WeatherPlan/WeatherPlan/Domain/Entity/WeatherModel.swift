@@ -10,7 +10,7 @@ import Foundation
 struct WeatherModel: Identifiable {
     let id: UUID = UUID()
     let date: Date
-    let weatherCondition: WeatherCondition
+    let symbolName: String
     
     enum WeatherCondition {
         case rainy

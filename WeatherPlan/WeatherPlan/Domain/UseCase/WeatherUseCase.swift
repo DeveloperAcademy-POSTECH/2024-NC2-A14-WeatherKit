@@ -33,7 +33,7 @@ class WeatherUseCase {
             guard let weatherData = self?.weatherService.fetchWeather(location: location) else { return }
             self?._state.model.removeAll(keepingCapacity: true)
             for data in weatherData {
-                self?._state.model[data.date] = data.weatherCondition
+                // self?._state.model[data.date] = data.weatherCondition
             }
         }
     }
