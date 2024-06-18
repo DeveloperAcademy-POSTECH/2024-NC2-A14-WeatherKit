@@ -20,7 +20,7 @@ class LocationManager: NSObject, LocationInterface {
     }
     
     func triggerHandler() {
-        updateState.toggle()
+        updateState = true
     }
     
     override init() {

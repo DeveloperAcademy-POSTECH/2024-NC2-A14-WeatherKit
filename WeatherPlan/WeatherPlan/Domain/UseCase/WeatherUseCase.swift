@@ -13,7 +13,7 @@ class WeatherUseCase {
     private let weatherService: WeatherInterface
     
     struct State {
-        var model: [Date: WeatherModel.WeatherCondition] = [:]
+        var model: [Date: WeatherModel] = [:]
     }
     
     private var _state: State = .init()
@@ -30,12 +30,17 @@ class WeatherUseCase {
         self.weatherService = weatherService
         
         self.locationService.locationUpdateHandler = { [weak self] location in
-            guard let weatherData = self?.weatherService.fetchWeather(location: location) else { return }
-            self?._state.model.removeAll(keepingCapacity: true)
-            for data in weatherData {
-                // self?._state.model[data.date] = data.weatherCondition
+            guard let self = self else { return }
+            Task {
+                let weatherData = await self.weatherService.fetchWeather(location: location)
+                self._state.model.removeAll(keepingCapacity: true)
+                for data in weatherData {
+                    self._state.model[data.date] = data
+                }
             }
         }
+        
+        fetchWeatherData()
     }
 }
 

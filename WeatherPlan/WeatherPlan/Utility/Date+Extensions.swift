@@ -20,11 +20,24 @@ extension Date {
     
     /// Checking Two Dates are same
     func isSameDate(with date: Date) -> Bool {
-        return Calendar.current.isDate(self, inSameDayAs: date)
+        var calendar = Calendar.current
+        calendar.timeZone = .autoupdatingCurrent
+        calendar.locale = .autoupdatingCurrent
+        return calendar.isDate(self, inSameDayAs: date)
+    }
+    
+    var beginOfDate: Self {
+        var calendar = Calendar.current
+        calendar.timeZone = .autoupdatingCurrent
+        calendar.locale = .autoupdatingCurrent
+        return calendar.startOfDay(for: self)
     }
     
     var weekday: Int {
-        return Calendar.current.component(.weekday, from: self)
+        var calendar = Calendar.current
+        calendar.timeZone = .autoupdatingCurrent
+        calendar.locale = .autoupdatingCurrent
+        return calendar.component(.weekday, from: self)
     }
 }
 

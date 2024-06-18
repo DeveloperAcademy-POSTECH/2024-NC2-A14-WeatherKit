@@ -8,5 +8,5 @@
 import CoreLocation.CLLocation
 
 protocol WeatherInterface {
-    func fetchWeather(location: CLLocation) -> [WeatherModel]
+    func fetchWeather(location: CLLocation) async -> [WeatherModel]
 }
