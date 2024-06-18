@@ -8,20 +8,26 @@
 import SwiftUI
 
 struct MainView: View {
+    /// Calendar
     @State private var currentDate: Date = .init()
     @State private var weekSlider: [[Date.WeekDay]] = []
     @State private var currentWeekIndex: Int = 1
     @State private var createWeek: Bool = false
     
-    @State private var planData: [PlanModel] = PlanModel.mock
-    
     @State private var calendarSize: CGSize = .init(width: CGFloat.infinity, height: CGFloat.infinity)
     
+    @ScaledMetric private var weatherHeight: CGFloat = 36
+    @ScaledMetric private var weatherWidth: CGFloat = 38
+    
+    /// Plan
+    @State private var planData: [PlanModel] = PlanModel.mock
+    
+    /// UseCase
     @State private var weatherUseCase: WeatherUseCase = .init(locationService: LocationManager(), weatherService: WeatherManager())
     
     var body: some View {
         
-        VStack {
+        VStack(spacing: 48) {
             // MARK: - Calendar
             TabView(selection: $currentWeekIndex) {
                 ForEach(weekSlider.indices, id: \.self) { index in
@@ -43,9 +49,11 @@ struct MainView: View {
                                     if let weatherData = weatherUseCase.state.model[day.date.beginOfDate] {
                                         Image(systemName: weatherData.symbolName)
                                             .font(.title2)
+                                            .frame(width: weatherWidth, height: weatherHeight, alignment: .top)
                                     } else {
                                         Text("-")
                                             .font(.title2)
+                                            .frame(width: weatherWidth, height: weatherHeight, alignment: .top)
                                     }
                                     
                                     Text(day.date.format("d"))
@@ -59,8 +67,16 @@ struct MainView: View {
                                 .frame(minWidth: 40)
                                 .padding(.vertical, 8)
                                 .background {
-                                    RoundedRectangle(cornerRadius: 36)
-                                        .foregroundStyle(Color(uiColor: .systemGray6))
+                                    if currentDate.isSameDate(with: day.date) {
+                                        RoundedRectangle(cornerRadius: 36)
+                                            .foregroundStyle(Color(uiColor: .systemGray6))
+                                    }
+                                }
+                                .overlay {
+                                    if Date().isSameDate(with: day.date) {
+                                        RoundedRectangle(cornerRadius: 36)
+                                            .stroke(Color(uiColor: .systemGray6))
+                                    }
                                 }
                             }
                             .onTapGesture {
@@ -83,14 +99,12 @@ struct MainView: View {
                                                 weekSlider.insert(firstDate.createPreviousWeek(), at: 0)
                                                 weekSlider.removeLast()
                                                 currentWeekIndex = 1
-                                                currentDate.moveToPreviousWeek()
                                             }
                                             
                                             if let lastDate = weekSlider[currentWeekIndex].last?.date, currentWeekIndex == weekSlider.count - 1 {
                                                 weekSlider.append(lastDate.createNextWeek())
                                                 weekSlider.removeFirst()
                                                 currentWeekIndex = weekSlider.count - 2
-                                                currentDate.moveToNextWeek()
                                             }
                                         }
                                         createWeek = false
@@ -118,35 +132,54 @@ struct MainView: View {
             // MARK: - WeatherDetail
             HStack {
                 VStack(alignment: .leading) {
-                    HStack {
-                        Text("18º")
-                        RoundedRectangle(cornerRadius: 21)
-                            .frame(width: 50,height: 4)
-                            .foregroundStyle(LinearGradient(colors: [Color(red: 113/255, green: 119/255, blue: 255/255), Color(red: 255/255, green: 123/255, blue: 123/255)], startPoint: .leading, endPoint: .trailing))
-                        Text("31º")
+                    if let data = weatherUseCase.state.model[currentDate.beginOfDate] {
+                        HStack {
+                            Text("\(data.lowTemperature)º")
+                            RoundedRectangle(cornerRadius: 21)
+                                .frame(width: 50,height: 4)
+                                .foregroundStyle(LinearGradient(colors: [Color(red: 113/255, green: 119/255, blue: 255/255), Color(red: 255/255, green: 123/255, blue: 123/255)], startPoint: .leading, endPoint: .trailing))
+                            Text("\(data.highTemperature)º")
+                        }
+                        .font(.subheadline)
+                        .foregroundStyle(.gray)
                     }
-                    .font(.subheadline)
-                    .foregroundStyle(.gray)
                     
-                    Text("일교차가 많이 클 것 같아요")
-                        .font(.largeTitle)
-                        .bold()
-                        .fixedSize(horizontal: false, vertical: true)
-                        .lineLimit(nil)
+                    if let data = weatherUseCase.state.model[currentDate.beginOfDate] {
+                        Text(data.weatherInfomation.description)
+                            .font(.largeTitle)
+                            .bold()
+                            .fixedSize(horizontal: false, vertical: true)
+                            .lineLimit(nil)
+                    } else {
+                        Text("날씨 정보가 없는 날이예요")
+                            .font(.largeTitle)
+                            .bold()
+                            .fixedSize(horizontal: false, vertical: true)
+                            .lineLimit(nil)
+                    }
                 }
                 Spacer()
-                Image(systemName: "thermometer.low")
-                    .font(.system(size: 90))
-                    .frame(width: 120, height: 120)
+                if let data = weatherUseCase.state.model[currentDate.beginOfDate] {
+                    Image(systemName: data.weatherInfomation.symbolName)
+                        .font(.system(size: 90))
+                        .frame(width: 120, height: 120)
+                        .foregroundStyle(data.weatherInfomation.symbolColor)
+                } else {
+                    Image(systemName: "exclamationmark.magnifyingglass")
+                        .font(.system(size: 90))
+                        .frame(width: 120, height: 120)
+                        .foregroundStyle(Color(uiColor: .systemGray4))
+                }
             }
             .padding(.horizontal, 18)
-            .padding(.vertical, 40)
             
-            Divider()
-                .padding()
+            
             
             // MARK: - Planner
             ScrollView {
+                Divider()
+                    .padding(.horizontal)
+                
                 VStack(alignment: .leading) {
                     ForEach(planData, id: \.id) { plan in
                         HStack(alignment: .center) {

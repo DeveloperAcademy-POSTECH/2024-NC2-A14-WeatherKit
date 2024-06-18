@@ -27,6 +27,7 @@
 		2BEBA38D2C1C1EC600771622 /* WeatherPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEBA38C2C1C1EC600771622 /* WeatherPlanTests.swift */; };
 		2BEBA3972C1C1EC600771622 /* WeatherPlanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEBA3962C1C1EC600771622 /* WeatherPlanUITests.swift */; };
 		2BEBA3992C1C1EC600771622 /* WeatherPlanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEBA3982C1C1EC600771622 /* WeatherPlanUITestsLaunchTests.swift */; };
+		2BF568872C21E349005D88B9 /* PlanSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF568862C21E349005D88B9 /* PlanSheetView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -71,6 +72,7 @@
 		2BEBA3922C1C1EC600771622 /* WeatherPlanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherPlanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BEBA3962C1C1EC600771622 /* WeatherPlanUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherPlanUITests.swift; sourceTree = "<group>"; };
 		2BEBA3982C1C1EC600771622 /* WeatherPlanUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherPlanUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		2BF568862C21E349005D88B9 /* PlanSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanSheetView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +166,7 @@
 			children = (
 				2BEBA37B2C1C1EC500771622 /* ContentView.swift */,
 				2B709DFD2C2056F9002AAC89 /* Main */,
+				2BF568852C21DF3A005D88B9 /* Record */,
 				2B709E002C205809002AAC89 /* Components */,
 			);
 			path = UI;
@@ -246,6 +249,14 @@
 				2BEBA3982C1C1EC600771622 /* WeatherPlanUITestsLaunchTests.swift */,
 			);
 			path = WeatherPlanUITests;
+			sourceTree = "<group>";
+		};
+		2BF568852C21DF3A005D88B9 /* Record */ = {
+			isa = PBXGroup;
+			children = (
+				2BF568862C21E349005D88B9 /* PlanSheetView.swift */,
+			);
+			path = Record;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -392,6 +403,7 @@
 				2B709E022C2090ED002AAC89 /* OffsetKey.swift in Sources */,
 				2BEBA37A2C1C1EC500771622 /* WeatherPlanApp.swift in Sources */,
 				2B99746A2C1C2873009A45B6 /* WeatherUseCase.swift in Sources */,
+				2BF568872C21E349005D88B9 /* PlanSheetView.swift in Sources */,
 				2B709E062C20B3FC002AAC89 /* View+Extensions.swift in Sources */,
 				2B13B7C12C1EC7B200B09EED /* WeatherModel.swift in Sources */,
 			);
