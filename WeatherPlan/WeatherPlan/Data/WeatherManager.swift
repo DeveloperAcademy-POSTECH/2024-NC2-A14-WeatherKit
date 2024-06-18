@@ -22,7 +22,6 @@ class WeatherManager: WeatherInterface {
     func fetchWeather(location: CLLocation) -> [WeatherModel] {
 //        var result: [WeatherModel] = []
         
-        // TODO: - 이 메서드 완성
         Task{
             let weatherData = try await weatherService.weather(for: location, including: .daily)
             let dayWeathers = weatherData.forecast
