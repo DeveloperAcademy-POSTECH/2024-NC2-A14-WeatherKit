@@ -29,10 +29,28 @@ struct MainView: View {
                             VStack {
                                 Text(day.date.format("E"))
                                     .font(.footnote)
+                                    .foregroundStyle(
+                                        day.date.weekday == 1
+                                        ? .red
+                                        : day.date.weekday == 7
+                                        ? .blue
+                                        : .primary
+                                    )
                                 
                                 VStack(spacing: 4) {
-                                    Image(systemName: "cloud.heavyrain")
-                                        .font(.title2)
+                                    if day.date.weekday == 2 {
+                                        Image(systemName: "cloud.heavyrain")
+                                            .font(.title2)
+                                    } else if day.date.weekday == 3 {
+                                        Image(systemName: "cloud.sun")
+                                            .font(.title2)
+                                    } else if day.date.weekday == 4 {
+                                        Text("-")
+                                            .font(.title2)
+                                    } else {
+                                        Image(systemName: "sun.max")
+                                            .font(.title2)
+                                    }
                                     
                                     Text(day.date.format("d"))
                                         .font(.footnote)
@@ -60,7 +78,7 @@ struct MainView: View {
                             Color.clear
                                 .preference(key: OffsetKey.self, value: minX)
                                 .onPreferenceChange(OffsetKey.self) { value in
-                                    if value.rounded() == 16 && createWeek {
+                                    if value.rounded() == 15 && createWeek {
                                         if weekSlider.indices.contains(currentWeekIndex) {
                                             if let firstDate = weekSlider[currentWeekIndex].first?.date, currentWeekIndex == 0 {
                                                 weekSlider.insert(firstDate.createPreviousWeek(), at: 0)
@@ -114,7 +132,8 @@ struct MainView: View {
                     Text("일교차가 많이 클 것 같아요")
                         .font(.largeTitle)
                         .bold()
-                        .lineLimit(2, reservesSpace: true)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .lineLimit(nil)
                 }
                 Spacer()
                 Image(systemName: "thermometer.low")
@@ -131,19 +150,31 @@ struct MainView: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     ForEach(planData, id: \.id) { plan in
-                        HStack {
+                        HStack(alignment: .center) {
                             ZStack {
                                 Image(systemName: plan.isDone ? "checkmark.circle.fill" : "circle")
+                                    .font(.body)
+                                    .bold()
+                                    .foregroundStyle(.secondary)
+                                    .onTapGesture {
+//                                        plan.isDone.toggle()
+                                    }
                                 
                                 RoundedRectangle(cornerRadius: 21)
+                                    .foregroundStyle(.secondary)
                                     .frame(width: 2, height: 40)
                                     .offset(y: 40)
                                     .opacity(plan.id != planData.last!.id ? 1 : 0)
                             }
                             
                             Text(plan.date.format("a hh:mm"))
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
                             
                             Text(plan.title)
+                                .font(.body)
+                                .bold()
+                                .foregroundStyle(.primary)
                             
                             Spacer()
                         }

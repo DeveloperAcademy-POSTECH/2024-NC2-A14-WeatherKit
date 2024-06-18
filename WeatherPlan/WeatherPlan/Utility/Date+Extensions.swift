@@ -22,6 +22,10 @@ extension Date {
     func isSameDate(with date: Date) -> Bool {
         return Calendar.current.isDate(self, inSameDayAs: date)
     }
+    
+    var weekday: Int {
+        return Calendar.current.component(.weekday, from: self)
+    }
 }
 
 extension Date {
