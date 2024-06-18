@@ -17,6 +17,8 @@ struct MainView: View {
     
     @State private var calendarSize: CGSize = .init(width: CGFloat.infinity, height: CGFloat.infinity)
     
+    @State private var weatherUseCase: WeatherUseCase = .init(locationService: LocationManager(), weatherService: WeatherManager())
+    
     var body: some View {
         
         VStack {
@@ -38,17 +40,11 @@ struct MainView: View {
                                     )
                                 
                                 VStack(spacing: 4) {
-                                    if day.date.weekday == 2 {
-                                        Image(systemName: "cloud.heavyrain")
-                                            .font(.title2)
-                                    } else if day.date.weekday == 3 {
-                                        Image(systemName: "cloud.sun")
-                                            .font(.title2)
-                                    } else if day.date.weekday == 4 {
-                                        Text("-")
+                                    if let weatherData = weatherUseCase.state.model[day.date.beginOfDate] {
+                                        Image(systemName: weatherData.symbolName)
                                             .font(.title2)
                                     } else {
-                                        Image(systemName: "sun.max")
+                                        Text("-")
                                             .font(.title2)
                                     }
                                     
@@ -66,6 +62,9 @@ struct MainView: View {
                                     RoundedRectangle(cornerRadius: 36)
                                         .foregroundStyle(Color(uiColor: .systemGray6))
                                 }
+                            }
+                            .onTapGesture {
+                                currentDate = day.date
                             }
                         }
                         .frame(maxWidth: .infinity, alignment: .center)

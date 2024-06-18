@@ -9,33 +9,29 @@
 import WeatherKit
 import CoreLocation.CLLocation
 
-@Observable
 class WeatherManager: WeatherInterface {
     var weatherService: WeatherService = .shared
     
-    var weatherModels: [WeatherModel] = []
-    
     /// fetchWeather(location: CLLocation) -> [WeatherModel]
     /// - Parameter location: 특정 장소의 위치 정보
-    /// - Returns: 열흘간의 날짜(Date)별 날씨(WeatherCondition) 배열
+    /// - Returns: 열흘간의 날짜(Date)별 날씨(WeatherInfomation) 배열
     @MainActor
-    func fetchWeather(location: CLLocation) -> [WeatherModel] {
-//        var result: [WeatherModel] = []
+    func fetchWeather(location: CLLocation) async -> [WeatherModel] {
+        var result: [WeatherModel] = []
         
-        // TODO: - 이 메서드 완성
-        Task{
-            let weatherData = try await weatherService.weather(for: location, including: .daily)
-            let dayWeathers = weatherData.forecast
-            
-            for dayWeather in dayWeathers {
-                let date = dayWeather.date
-                let symbol = dayWeather.symbolName
-                let newWeatherModel = WeatherModel(date: date, symbolName: symbol)
-//                result.append(newWeatherModel)
-                weatherModels.append(newWeatherModel)
-            }
+        guard let weatherData = try? await weatherService.weather(for: location, including: .daily) else { return [] }
+        let dayWeathers = weatherData.forecast
+        
+        for dayWeather in dayWeathers {
+            let newWeatherModel = WeatherModel(
+                date: dayWeather.date.beginOfDate,
+                symbolName: dayWeather.symbolName,
+                weatherInfomation: .sunny,
+                lowTemperature: Int(round(dayWeather.lowTemperature.value)),
+                highTemperature: Int(round(dayWeather.highTemperature.value))
+            )
+            result.append(newWeatherModel)
         }
-//        return result
-        return []
+        return result
     }
 }
