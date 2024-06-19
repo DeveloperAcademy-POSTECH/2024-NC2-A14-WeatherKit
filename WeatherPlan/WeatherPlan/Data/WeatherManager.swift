@@ -23,15 +23,31 @@ class WeatherManager: WeatherInterface {
         let dayWeathers = weatherData.forecast
         
         for dayWeather in dayWeathers {
+            let date = dayWeather.date.beginOfDate
+            let symbolNama = dayWeather.symbolName
+            let weatherInfomation: WeatherModel.WeatherInfomation = importantWeatherInfomation(dayWeather)
+            let lowTemperature = Int(round(dayWeather.lowTemperature.value))
+            let highTemperature = Int(round(dayWeather.highTemperature.value))
+            
             let newWeatherModel = WeatherModel(
-                date: dayWeather.date.beginOfDate,
+                date: date,
                 symbolName: dayWeather.symbolName,
-                weatherInfomation: .sunny,
-                lowTemperature: Int(round(dayWeather.lowTemperature.value)),
-                highTemperature: Int(round(dayWeather.highTemperature.value))
+                weatherInfomation: weatherInfomation,
+                lowTemperature: lowTemperature,
+                highTemperature: highTemperature
             )
             result.append(newWeatherModel)
         }
         return result
+    }
+    
+    private func importantWeatherInfomation(_ weather: DayWeather) -> WeatherModel.WeatherInfomation {
+        if weather.precipitationChance >= 0.5 { return .rainy }
+        if weather.lowTemperature.value <= -4 { return .cold }
+        if weather.highTemperature.value >= 30 { return .heat }
+        if weather.highTemperature.value - weather.lowTemperature.value >= 12 { return .diurnalRange }
+        if weather.uvIndex.value >= 6 { return .sunny }
+        if weather.wind.speed.value >= 8 { return .windy}
+        return .good
     }
 }

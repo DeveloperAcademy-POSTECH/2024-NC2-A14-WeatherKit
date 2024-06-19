@@ -26,7 +26,7 @@ struct WeatherModel: Identifiable {
         
         var description: String {
             switch self {
-            case .rainy: return "하루종일 비가 많이 올거예요"
+            case .rainy: return "비 예보가 있으니 우산을 챙기세요"
             case .cold: return "기온이 많이 낮은 날이에요"
             case .heat: return "기온이 많이 높은 날이에요"
             case .diurnalRange: return "일교차가 많이 클 것 같아요"

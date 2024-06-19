@@ -12,10 +12,5 @@ struct PlanModel: Identifiable {
     var isDone: Bool = false
     var date: Date = .init()
     var title: String = ""
-    
-    static var mock: [PlanModel] = [
-        PlanModel(isDone: true, title: "NC2 프로토타이핑"),
-        PlanModel(title: "점심 약속")
-    ]
 }
 
