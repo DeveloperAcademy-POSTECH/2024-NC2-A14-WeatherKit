@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainView: View {
     /// Calendar
-    @State private var currentDate: Date = .init()
+//    @State private var currentDate: Date = .init()
     @State private var weekSlider: [[Date.WeekDay]] = []
     @State private var currentWeekIndex: Int = 1
     @State private var createWeek: Bool = false
@@ -20,10 +20,14 @@ struct MainView: View {
     @ScaledMetric private var weatherWidth: CGFloat = 38
     
     /// Plan
-    @State private var planData: [PlanModel] = PlanModel.mock
+//    @State private var planData: [PlanModel] = PlanModel.mock
+    // for Sheet
+    @State private var planModel: PlanModel?
+    
     
     /// UseCase
     @State private var weatherUseCase: WeatherUseCase = .init(locationService: LocationManager(), weatherService: WeatherManager())
+    @State private var planUseCase: PlanUseCase = .init(dataService: DataService.shared)
     
     var body: some View {
         
@@ -63,11 +67,12 @@ struct MainView: View {
                                     Circle()
                                         .frame(width: 6, height: 6)
                                         .foregroundStyle(.gray)
+                                        .opacity(planUseCase.isPlanExist(at: day.date) ? 1 : 0)
                                 }
                                 .frame(minWidth: 40)
                                 .padding(.vertical, 8)
                                 .background {
-                                    if currentDate.isSameDate(with: day.date) {
+                                    if planUseCase.state.currentDate.isSameDate(with: day.date) {
                                         RoundedRectangle(cornerRadius: 36)
                                             .foregroundStyle(Color(uiColor: .systemGray6))
                                     }
@@ -80,7 +85,8 @@ struct MainView: View {
                                 }
                             }
                             .onTapGesture {
-                                currentDate = day.date
+                                planUseCase.execute(action: .changeDate(day.date))
+                                planUseCase.execute(action: .readPlan)
                             }
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -132,7 +138,7 @@ struct MainView: View {
             // MARK: - WeatherDetail
             HStack {
                 VStack(alignment: .leading) {
-                    if let data = weatherUseCase.state.model[currentDate.beginOfDate] {
+                    if let data = weatherUseCase.state.model[planUseCase.state.currentDate.beginOfDate] {
                         HStack {
                             Text("\(data.lowTemperature)º")
                             RoundedRectangle(cornerRadius: 21)
@@ -144,7 +150,7 @@ struct MainView: View {
                         .foregroundStyle(.gray)
                     }
                     
-                    if let data = weatherUseCase.state.model[currentDate.beginOfDate] {
+                    if let data = weatherUseCase.state.model[planUseCase.state.currentDate.beginOfDate] {
                         Text(data.weatherInfomation.description)
                             .font(.largeTitle)
                             .bold()
@@ -159,7 +165,7 @@ struct MainView: View {
                     }
                 }
                 Spacer()
-                if let data = weatherUseCase.state.model[currentDate.beginOfDate] {
+                if let data = weatherUseCase.state.model[planUseCase.state.currentDate.beginOfDate] {
                     Image(systemName: data.weatherInfomation.symbolName)
                         .font(.system(size: 90))
                         .frame(width: 120, height: 120)
@@ -180,54 +186,77 @@ struct MainView: View {
                 Divider()
                     .padding(.horizontal)
                 
-                VStack(alignment: .leading) {
-                    ForEach(planData, id: \.id) { plan in
-                        HStack(alignment: .center) {
-                            ZStack {
-                                Image(systemName: plan.isDone ? "checkmark.circle.fill" : "circle")
+                if planUseCase.state.model.isEmpty {
+                    Text("새로운 일정을 추가 해 보세요!")
+                        .font(.body)
+                        .foregroundStyle(.gray)
+                        .padding(.vertical)
+                } else {
+                    VStack(alignment: .leading) {
+                        ForEach(planUseCase.state.model, id: \.id) { plan in
+                            HStack(alignment: .center) {
+                                ZStack {
+                                    Image(systemName: plan.isDone ? "checkmark.circle.fill" : "circle")
+                                        .font(.body)
+                                        .bold()
+                                        .foregroundStyle(.secondary)
+                                        .onTapGesture {
+                                            planUseCase.execute(action: .togglePlan(plan))
+                                        }
+                                    
+                                    if !planUseCase.state.model.isEmpty {
+                                        RoundedRectangle(cornerRadius: 21)
+                                            .foregroundStyle(.secondary)
+                                            .frame(width: 2, height: 40)
+                                            .offset(y: 40)
+                                            .opacity(plan.id != planUseCase.state.model.last!.id ? 1 : 0)
+                                    }
+                                }
+                                
+                                Text(plan.date.format("a hh:mm"))
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                
+                                Text(plan.title)
                                     .font(.body)
                                     .bold()
-                                    .foregroundStyle(.secondary)
-                                    .onTapGesture {
-//                                        plan.isDone.toggle()
-                                    }
+                                    .foregroundStyle(.primary)
                                 
-                                RoundedRectangle(cornerRadius: 21)
-                                    .foregroundStyle(.secondary)
-                                    .frame(width: 2, height: 40)
-                                    .offset(y: 40)
-                                    .opacity(plan.id != planData.last!.id ? 1 : 0)
+                                Spacer()
                             }
-                            
-                            Text(plan.date.format("a hh:mm"))
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                            
-                            Text(plan.title)
-                                .font(.body)
-                                .bold()
-                                .foregroundStyle(.primary)
-                            
-                            Spacer()
+                            .padding(.vertical)
+                            .onTapGesture {
+                                planModel = plan
+                            }
                         }
-                        .padding(.vertical)
                     }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
             }
         }
-        .navigationTitle(currentDate.format("y년 M월"))
+        .onChange(of: planUseCase.state.currentDate, initial: true, { oldValue, newValue in
+            planUseCase.execute(action: .readPlan)
+        })
+        .navigationTitle(planUseCase.state.currentDate.format("y년 M월")) // TODO: - 달력 이동하면 변하게 바꿔야함
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
-                    
+                    planModel = .init(date: planUseCase.state.currentDate)
                 } label: {
                     Image(systemName: "plus")
                 }
                 .tint(.primary)
             }
         }
+        .sheet(item: $planModel) {
+            planModel = nil
+        } content: { plan in
+            PlanSheetView(plan: plan, editType: (planModel?.title ?? "") == "" ? .create : .update, planUseCase: $planUseCase)
+                .presentationDetents([.medium])
+                .presentationDragIndicator(.visible)
+        }
+
         
     }
 }
