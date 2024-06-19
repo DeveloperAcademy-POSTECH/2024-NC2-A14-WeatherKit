@@ -28,6 +28,7 @@ struct PlanSheetView: View {
                         Button(role: .destructive) {
                             planUseCase.execute(action: .deletePlan(plan.id, plan.date))
                             planUseCase.execute(action: .readPlan)
+                            dismiss()
                         } label: {
                             HStack {
                                 Spacer()
