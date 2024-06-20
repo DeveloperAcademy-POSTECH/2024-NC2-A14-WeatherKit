@@ -31,6 +31,9 @@
 		2BF568892C21F7E5005D88B9 /* DataServiceInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF568882C21F7E5005D88B9 /* DataServiceInterface.swift */; };
 		2BF5688B2C21FDB6005D88B9 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5688A2C21FDB6005D88B9 /* DataService.swift */; };
 		2BF5688D2C220CC2005D88B9 /* EditType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5688C2C220CC2005D88B9 /* EditType.swift */; };
+		2BF5688F2C23DDB2005D88B9 /* MainView+Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF5688E2C23DDB2005D88B9 /* MainView+Calendar.swift */; };
+		2BF568912C23DF73005D88B9 /* MainView+WeatherDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF568902C23DF73005D88B9 /* MainView+WeatherDetail.swift */; };
+		2BF568932C23E069005D88B9 /* MainView+PlanListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BF568922C23E069005D88B9 /* MainView+PlanListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +82,9 @@
 		2BF568882C21F7E5005D88B9 /* DataServiceInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataServiceInterface.swift; sourceTree = "<group>"; };
 		2BF5688A2C21FDB6005D88B9 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		2BF5688C2C220CC2005D88B9 /* EditType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditType.swift; sourceTree = "<group>"; };
+		2BF5688E2C23DDB2005D88B9 /* MainView+Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainView+Calendar.swift"; sourceTree = "<group>"; };
+		2BF568902C23DF73005D88B9 /* MainView+WeatherDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainView+WeatherDetail.swift"; sourceTree = "<group>"; };
+		2BF568922C23E069005D88B9 /* MainView+PlanListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainView+PlanListView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +154,9 @@
 			isa = PBXGroup;
 			children = (
 				2B709DFE2C20570A002AAC89 /* MainView.swift */,
+				2BF5688E2C23DDB2005D88B9 /* MainView+Calendar.swift */,
+				2BF568902C23DF73005D88B9 /* MainView+WeatherDetail.swift */,
+				2BF568922C23E069005D88B9 /* MainView+PlanListView.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -402,7 +411,9 @@
 				2B9974732C1C2F0C009A45B6 /* WeatherManager.swift in Sources */,
 				2BF5688D2C220CC2005D88B9 /* EditType.swift in Sources */,
 				2BF568892C21F7E5005D88B9 /* DataServiceInterface.swift in Sources */,
+				2BF5688F2C23DDB2005D88B9 /* MainView+Calendar.swift in Sources */,
 				2B709DFF2C20570A002AAC89 /* MainView.swift in Sources */,
+				2BF568932C23E069005D88B9 /* MainView+PlanListView.swift in Sources */,
 				2B99746C2C1C288A009A45B6 /* PlanUseCase.swift in Sources */,
 				2B13B7C32C1EC7C200B09EED /* PlanModel.swift in Sources */,
 				2B13B7BA2C1EC01D00B09EED /* WeatherInterface.swift in Sources */,
@@ -415,6 +426,7 @@
 				2B709E022C2090ED002AAC89 /* OffsetKey.swift in Sources */,
 				2BEBA37A2C1C1EC500771622 /* WeatherPlanApp.swift in Sources */,
 				2B99746A2C1C2873009A45B6 /* WeatherUseCase.swift in Sources */,
+				2BF568912C23DF73005D88B9 /* MainView+WeatherDetail.swift in Sources */,
 				2BF568872C21E349005D88B9 /* PlanSheetView.swift in Sources */,
 				2B709E062C20B3FC002AAC89 /* View+Extensions.swift in Sources */,
 				2B13B7C12C1EC7B200B09EED /* WeatherModel.swift in Sources */,
