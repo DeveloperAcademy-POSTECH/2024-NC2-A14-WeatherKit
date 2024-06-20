@@ -36,6 +36,8 @@
 
 ## 🖼️ Prototype
 
+![prototype1](https://github.com/YunKi-H/2024-NC2-A14-WeatherKit/assets/80469941/dd1636e9-faa5-4c8b-b3fa-45ef321b8a8c)
+![prototype2](https://github.com/YunKi-H/2024-NC2-A14-WeatherKit/assets/80469941/f13276cd-9738-4b73-92d1-c5fd07726907)
 
 
 - 사용자의 현재 위치 기준 오늘포함 이후 열흘간 날씨 정보를 보여줌 (위치 권한 사용 허용시)
