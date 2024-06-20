@@ -12,7 +12,7 @@ struct PlanSheetView: View {
     @State var plan: PlanModel
     @State var editType: EditType
     
-    @Binding var planUseCase: PlanUseCase // = .init(dataService: DataService.shared)
+    @Binding var planUseCase: PlanUseCase
     
     var body: some View {
         NavigationStack {
